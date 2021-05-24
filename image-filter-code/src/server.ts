@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import { request } from 'https';
+import https from 'https';
 
 (async () => {
 
@@ -39,6 +39,19 @@ import { request } from 'https';
     if ( !image_url ) {
       return res.status(400).send(`image_url is required`);
     }
+    //TODO: pending check content-type:= image/jpeg
+    const request = https.get(image_url, function(response) {
+      console.log("content-type:=", response.headers['content-type']);
+      if (response.statusCode === 200) {
+        console.log("image OK");
+      }
+      else if (response.statusCode === 404) {
+        return res.status(404).send(`image_url parameter is invalid`);
+      }
+      request.setTimeout(60000, function() { // if after 60s file not downlaoded, we abort a request 
+          request.abort();
+      });
+    });
 
     //2. call filterImageFromURL(image_url) to filter the image
     const path = await filterImageFromURL(image_url);
@@ -47,11 +60,17 @@ import { request } from 'https';
     }
     
     //3. send the resulting file in the response
-    res.status(200).sendFile(path);
+    res.sendFile(path);
+    res.on('finish', function() {
+      try {
+         //4. deletes any files on the server on finish of the response
+        var aa:string[]= [path]; 
+        deleteLocalFiles(aa);
+      } catch(e) {
+        console.log("error removing ", path); 
+      }
+  });
 
-    //4. deletes any files on the server on finish of the response
-    var aa:string[]= [path]; 
-    //deleteLocalFiles(aa);
 } );
 
   //! END @TODO1
