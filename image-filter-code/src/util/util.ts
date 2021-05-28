@@ -32,3 +32,9 @@ export async function deleteLocalFiles(files:Array<string>){
         fs.unlinkSync(file);
     }
 }
+
+// sleep
+// function to sleep execution thread for some miliseconds
+export function sleep(millis:number) {
+    return new Promise(resolve => setTimeout(resolve, millis));
+}
