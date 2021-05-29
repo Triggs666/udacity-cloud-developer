@@ -222,7 +222,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{HOST}}/filteredimage?image_url=https://cuarteldelmetal.com/wp-content/uploads/2021/03/metallica.jpg",
+					"raw": "http://{{HOST}}/filteredimage?image_url=https://upload.wikimedia.org/wikipedia/commons/b/bd/Golden_tabby_and_white_kitten_n01.jpg",
 					"protocol": "http",
 					"host": [
 						"{{HOST}}"
@@ -233,7 +233,7 @@
 					"query": [
 						{
 							"key": "image_url",
-							"value": "https://cuarteldelmetal.com/wp-content/uploads/2021/03/metallica.jpg"
+							"value": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Golden_tabby_and_white_kitten_n01.jpg"
 						}
 					]
 				}
